@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:informata/home.dart';
 
 void main() {
   runApp(const MyTabbedPage());
 }
 
 class MyTabbedPage extends StatefulWidget {
-  const MyTabbedPage({ super.key });
+  const MyTabbedPage({super.key});
   @override
   State<MyTabbedPage> createState() => _MyTabbedPageState();
 }
 
-class _MyTabbedPageState extends State<MyTabbedPage> with SingleTickerProviderStateMixin {
+class _MyTabbedPageState extends State<MyTabbedPage>
+    with SingleTickerProviderStateMixin {
   static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Informationen erhalten'),
-    Tab(text: 'Daten erhalten'),
+    Tab(text: 'Daten ▶️ Informationen'),
+    Tab(text: 'Informationen'),
   ];
 
   late TabController _tabController;
@@ -32,25 +34,9 @@ class _MyTabbedPageState extends State<MyTabbedPage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: myTabs,
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: myTabs.map((Tab tab) {
-          final String label = tab.text!.toLowerCase();
-          return Center(
-            child: Text(
-              'This is the $label tab',
-              style: const TextStyle(fontSize: 36),
-            ),
-          );
-        }).toList(),
-      ),
+    return const MaterialApp(
+      title: "Informationen ↔ Daten",
+      home: TwoColumnLayout()
     );
   }
 }

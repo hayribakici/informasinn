@@ -1,8 +1,7 @@
-import 'package:envied/envied.dart';
-part 'env.g.dart';
 
-@Envied(path: ".env")
-abstract class Env {
-  @EnviedField(varName: 'HF_TOKEN')
-  static const String apiKey = _Env.apiKey;
+class Env {
+  static const _tokenKey = 'HF_TOKEN';
+  static const _baseUrlKey = 'BASE_URL';
+  static String get baseUrl => const String.fromEnvironment(_baseUrlKey);
+  static String get apiKey => const String.fromEnvironment(_tokenKey);
 }

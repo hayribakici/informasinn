@@ -8,10 +8,14 @@ User enters a bunch of data e.g. numbers, emojis or descriptions and the program
 ## Build
 
 1. Checkout this Repository
-2. Create an [account on huggingface](https://huggingface.co/) and an access token `read` respectively
-3. Create an `.env`-file on your project root and add the line `HF_TOKEN=<your token here>`
-4. Run `dart run build_runner build` to generate `env.g.dart` file.
-5. Run the flutter project with `flutter run`
+2. Create an [account on huggingface](https://huggingface.co/) and an access token `read`.
+3. Create an `.env`-file on your project root and add the line `HF_TOKEN=<your token here>` and `BASE_URL=<your base url>` respectively.
+4. Run `flutter run web --dart-define-from-file=.env`
+5. Enjoy 🎂
+
+## Deploy by yourself
+
+tba.
 
 ## Further improvements
 

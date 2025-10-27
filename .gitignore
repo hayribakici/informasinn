@@ -70,9 +70,6 @@ env.g*
 *.js.deps
 *.js.map
 
-### Dart Patch ###
-# dotenv environment variables file
-.env
 
 # End of https://www.toptal.com/developers/gitignore/api/dart
 # Created by https://www.toptal.com/developers/gitignore/api/flutter
@@ -83,7 +80,6 @@ env.g*
 .fvm/flutter_sdk
 
 coverage/
-lib/generated_plugin_registrant.dart
 # For library packages, don’t commit the pubspec.lock file.
 # Regenerating the pubspec.lock file lets you test your package against the latest compatible versions of its dependencies.
 # See https://dart.dev/guides/libraries/private-files#pubspeclock

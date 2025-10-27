@@ -1,24 +1,30 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'env/env.dart';
 
-class InformationRetriever {
-  final baseUrl = 'https://router.huggingface.co/v1/chat/completions';
-  final _models = <String, String>{
-    'mistralai': 'mistralai/Mistral-7B-Instruct-v0.2',
-    'huihui-ai': 'huihui-ai/Qwen2.5-14B-Instruct-abliterated-v2:featherless-ai'
-  };
+class _InformationRetrieverRelease extends InformationRetriever {
+  @override
+  Map<String, String> get _headers => {
+        'Content-Type': 'application/json',
+      };
 
-  String getModel(String name) => _models[name] ?? _models['huihui-ai']!;
+  @override
+  String _body(String prompt, {bool stream = false}) => jsonEncode({
+        'prompt': prompt,
+        'stream': stream,
+      });
+}
 
-  String get defaultModel => getModel('huihui-ai');
-
+class _InformationRetrieverDebug extends InformationRetriever {
+  @override
   Map<String, String> get _headers => {
         'Authorization': 'Bearer ${Env.apiKey}',
         'Content-Type': 'application/json',
       };
 
+  @override
   String _body(String prompt, {bool stream = false}) => jsonEncode({
         'model': defaultModel,
         'stream': stream,
@@ -29,11 +35,36 @@ class InformationRetriever {
           }
         ]
       });
+}
+
+abstract class InformationRetriever {
+  final _baseUrl = Env.baseUrl;
+  final _models = <String, String>{
+    'mistralai': 'mistralai/Mistral-7B-Instruct-v0.2',
+    'huihui-ai': 'huihui-ai/Qwen2.5-14B-Instruct-abliterated-v2:featherless-ai'
+  };
+
+  String getModel(String name) => _models[name] ?? _models['huihui-ai']!;
+
+  String get defaultModel => getModel('huihui-ai');
+
+  InformationRetriever();
+
+  factory InformationRetriever.instance() {
+    if (kReleaseMode) {
+      return _InformationRetrieverRelease();
+    }
+    return _InformationRetrieverDebug();
+  }
+
+  Map<String, String> get _headers;
+
+  String _body(String prompt, {bool stream = false});
 
   Stream<String> getInformationFromDataAsStream(String prompt) async* {
     final request = http.Request(
       'POST',
-      Uri.parse('https://router.huggingface.co/v1/chat/completions'),
+      Uri.parse(_baseUrl),
     )
       ..headers.addAll(_headers)
       ..body = _body(prompt, stream: true);
@@ -57,7 +88,7 @@ class InformationRetriever {
   }
 
   Future<String> getInformationFromData(String prompt) async {
-    final response = await http.post(Uri.parse(baseUrl),
+    final response = await http.post(Uri.parse(_baseUrl),
         headers: _headers, body: _body(prompt));
     return _handleResponse(response);
   }

@@ -13,7 +13,7 @@ class TwoColumnLayout extends StatefulWidget {
 class _TwoColumnLayoutState extends State<TwoColumnLayout> {
   final leftController = TextEditingController();
   final rightController = TextEditingController();
-  final retriever = InformationRetriever();
+  final retriever = InformationRetriever.instance();
 
   var _isLoading = false;
 
@@ -25,7 +25,8 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
       setLoading(false);
       rightController.text += answerChunk;
     }, onError: (e) {
-      rightController.text = 'Hoppla! Ein Fehler ist unterlaufen (${e.toString()}';
+      rightController.text =
+          'Hoppla! Ein Fehler ist unterlaufen (${e.toString()}';
       setLoading(false);
     });
   }
@@ -57,21 +58,33 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
       bottomNavigationBar: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Text('Powered by '),
+          const Text('Made with ♥️ and powered by '),
           RichText(
             text: TextSpan(
-              text: 'Huggingface',
+              text: '🐦 Flutter, ',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  await web.UrlLauncherPlugin().launch('https://hugginface.co');
+                  await web.UrlLauncherPlugin()
+                      .launch('https://flutter.dev');
+                },
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+              text: '🤗 Huggingface',
+              style: const TextStyle(color: Colors.blue),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () async {
+                  await web.UrlLauncherPlugin()
+                      .launch('https://huggingface.co');
                 },
             ),
           ),
           const Text(' and '),
           RichText(
             text: TextSpan(
-              text: retriever.defaultModel,
+              text: '⚡️ ${retriever.defaultModel}',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {

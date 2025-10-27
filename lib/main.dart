@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:informata/home.dart';
+import 'package:informasinn/home.dart';
 
 void main() async {
   runApp(const MaterialApp(

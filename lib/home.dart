@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:informata/data_to_information.dart';
+import 'package:informasinn/data_to_information.dart';
 import 'package:url_launcher_web/url_launcher_web.dart' as web;
 
 class TwoColumnLayout extends StatefulWidget {
@@ -17,10 +17,10 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
 
   var _isLoading = false;
 
-  void submitPrompt() {
+  void _submitPrompt() {
     setLoading(true);
     rightController.text = '';
-    var stream = retriever.getInformationFromDataAsStream(leftController.text);
+    var stream = retriever.getInformationFromDataAsStream(_preparePrompt());
     stream.listen((answerChunk) {
       setLoading(false);
       rightController.text += answerChunk;
@@ -28,6 +28,10 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
       rightController.text = 'Hoppla! Ein Fehler ist unterlaufen (${e.toString()}';
       setLoading(false);
     });
+  }
+
+  String _preparePrompt() {
+    return 'Gib mir bitte Informationen zu den folgenden Daten: ${leftController.text}}. Sei so kurz und knapp wie möglich.';
   }
 
   @override
@@ -92,11 +96,15 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
                   child: TextField(
                     controller: leftController,
                     enabled: !_isLoading,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
                       hintText: 'Gib hier einige Daten ein',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => leftController.clear(),
+                      ),
                     ),
-                    onSubmitted: (_) async => submitPrompt(),
+                    onSubmitted: (_) async => _submitPrompt(),
                   ),
                 ),
               ],
@@ -108,7 +116,7 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
               const SizedBox(height: 25),
               Center(
                 child: TextButton(
-                  onPressed: submitPrompt,
+                  onPressed: _submitPrompt,
                   child: const Icon(Icons.keyboard_arrow_right_sharp),
                 ),
               ),

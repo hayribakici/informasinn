@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
-
 import 'env/env.dart';
 
 class InformationRetriever {
@@ -31,22 +29,6 @@ class InformationRetriever {
           }
         ]
       });
-
-  // ry {
-  //       final res = await http.post(
-  //         Uri.parse('https://router.huggingface.co/v1/chat/completions'),
-  //         headers: {
-  //           'Authorization': 'Bearer ${dotenv.env['HF_TOKEN']}',
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: jsonEncode({
-  //           'model': 'mistralai/Mistral-7B-Instruct-v0.2:featherless-ai',
-  //           'messages': [{'role': 'user', 'content': prompt}],
-  //         }),
-  //       );
-  //
-  //       if (res.statusCode == 200) {
-  //         final data = jsonDecode(res.body);
 
   Stream<String> getInformationFromDataAsStream(String prompt) async* {
     final request = http.Request(

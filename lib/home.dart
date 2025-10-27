@@ -84,14 +84,8 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
                       setState(() {
                         _isLoading = true;
                       });
-                      // var stream = retriever.retrieveAsStream(text);
-                      // await for (final String response in stream) {
-                      //   // Access the content the directly.
-                      //   print(response);
-                      // }
                       var response = await retriever.getInformationFromData(text);
                       rightController.text = response;
-
                       setState(() {
                         _isLoading = false;
                       });

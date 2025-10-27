@@ -17,9 +17,16 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
 
   var _isLoading = false;
 
-  void buttonPressed() {
-    setState(() {
-      _isLoading = true;
+  void submitPrompt() {
+    setLoading(true);
+    rightController.text = '';
+    var stream = retriever.getInformationFromDataAsStream(leftController.text);
+    stream.listen((answerChunk) {
+      setLoading(false);
+      rightController.text += answerChunk;
+    }, onError: (e) {
+      rightController.text = 'Hoppla! Ein Fehler ist unterlaufen (${e.toString()}';
+      setLoading(false);
     });
   }
 
@@ -28,6 +35,15 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
     leftController.dispose();
     rightController.dispose();
     super.dispose();
+  }
+
+  void setLoading(bool loading) {
+    if (loading == _isLoading) {
+      return;
+    }
+    setState(() {
+      _isLoading = loading;
+    });
   }
 
   @override
@@ -80,16 +96,7 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
                       border: OutlineInputBorder(),
                       hintText: 'Gib hier einige Daten ein',
                     ),
-                    onSubmitted: (text) async {
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      var response = await retriever.getInformationFromData(text);
-                      rightController.text = response;
-                      setState(() {
-                        _isLoading = false;
-                      });
-                    },
+                    onSubmitted: (_) async => submitPrompt(),
                   ),
                 ),
               ],
@@ -101,8 +108,7 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
               const SizedBox(height: 25),
               Center(
                 child: TextButton(
-                  // enabled: !_isLoading,
-                  onPressed: buttonPressed,
+                  onPressed: submitPrompt,
                   child: const Icon(Icons.keyboard_arrow_right_sharp),
                 ),
               ),

@@ -1,13 +1,13 @@
 # InformaSinn
 
-This is the source code of _InformaSinn_ (as in **_Information_** and **_Sinn_**, translated Information-Sense), a simple website that receives a bunch of data and returns the appropriate information. Made with ❤️ and ⚡️powered by [huggingface.co](https://huggingface.co/huihui-ai/Qwen2.5-14B-Instruct-abliterated-v2). 
+This is the source code of _InformaSinn_ (as in **_Information_** and **_Sinn_**, translated Information-Sense), an educational website, where students are able to explore the relationship with _data_ and _information_. Made with ❤️ and ⚡️powered by [huggingface.co](https://huggingface.co/huihui-ai/Qwen2.5-14B-Instruct-abliterated-v2). 
 
 ## How to use
 User enters a bunch of data e.g. numbers, emojis or descriptions and the program outputs appropriate information regarding this given data.
 
 ## Educational notes
 
-With this tool, students are able to explore the reasoning behind data in everyday life and what information they hold.
+With this tool, students are able to explore the relationship between everyday data (e.g. 👋-emoji) and the information they are holding (e.g. 👋 means greeting).
 
 ## Build
 

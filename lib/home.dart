@@ -56,23 +56,23 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
     return Scaffold(
       appBar: AppBar(title: const Text('Daten ▶️ Informationen')),
       bottomNavigationBar: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
         children: [
           const Text('Made with ♥️ and powered by '),
           RichText(
             text: TextSpan(
-              text: '🐦 Flutter, ',
+              text: ' 🐦 Flutter, ',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  await web.UrlLauncherPlugin()
-                      .launch('https://flutter.dev');
+                  await web.UrlLauncherPlugin().launch('https://flutter.dev');
                 },
             ),
           ),
           RichText(
             text: TextSpan(
-              text: '🤗 Huggingface',
+              text: ' 🤗 Huggingface',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
@@ -84,7 +84,7 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
           const Text(' and '),
           RichText(
             text: TextSpan(
-              text: '⚡️ ${retriever.defaultModel}',
+              text: ' ⚡️ ${retriever.defaultModel}.',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
@@ -93,6 +93,17 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
                 },
             ),
           ),
+          const Spacer(),
+          const Text(' Sourcecode available on '),
+          RichText(
+              text: TextSpan(
+                  text: 'GitHub',
+                  style: const TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      await web.UrlLauncherPlugin()
+                          .launch('https://github.com/hayribakici/informasinn');
+                    }))
         ],
       ),
       body: Row(

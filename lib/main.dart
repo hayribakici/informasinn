@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:informasinn/home.dart';
 
 void main() async {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: "Daten ▶️ Informationen",
-    home: TwoColumnLayout(),
+    theme: ThemeData(
+      colorScheme: const ColorScheme.light(primary: Colors.blue),
+    ),
+    home: const TwoColumnLayout(),
   ));
 }

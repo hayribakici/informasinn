@@ -24,3 +24,4 @@ tba.
 ## Further improvements
 
 - enable user to choose model
+- enable user to change language or interface

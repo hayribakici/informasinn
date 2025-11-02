@@ -6,9 +6,8 @@ import 'env/env.dart';
 
 class _InformationRetrieverRelease extends InformationRetriever {
   @override
-  Map<String, String> get _headers => {
-        'Content-Type': 'application/json',
-      };
+  Map<String, String> get _headers =>
+      {HttpHeaders.contentTypeHeader: ContentType.json.mimeType};
 
   @override
   String _body(String prompt, {bool stream = false}) => jsonEncode({
@@ -21,7 +20,7 @@ class _InformationRetrieverDebug extends InformationRetriever {
   @override
   Map<String, String> get _headers => {
         'Authorization': 'Bearer ${Env.apiKey}',
-        'Content-Type': 'application/json',
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType
       };
 
   @override

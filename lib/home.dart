@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:informasinn/data_to_information.dart';
+import 'package:informasinn/information_client.dart';
 import 'package:url_launcher_web/url_launcher_web.dart' as web;
 
 class TwoColumnLayout extends StatefulWidget {
@@ -17,18 +17,13 @@ class _TwoColumnLayoutState extends State<TwoColumnLayout> {
 
   var _isLoading = false;
 
-  void _submitPrompt() {
+  void _submitPrompt() async {
     setLoading(true);
     rightController.text = '';
-    var stream = retriever.getInformationFromDataAsStream(_preparePrompt());
-    stream.listen((answerChunk) {
-      setLoading(false);
-      rightController.text += answerChunk;
-    }, onError: (e) {
-      rightController.text =
-          'Hoppla! Ein Fehler ist unterlaufen (${e.toString()}';
-      setLoading(false);
-    });
+    var response = await retriever.getInformationFromData(_preparePrompt());
+    rightController.text = response;
+    setLoading(false);
+
   }
 
   String _preparePrompt() {

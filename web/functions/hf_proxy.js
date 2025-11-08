@@ -10,7 +10,6 @@ export async function handler(event) {
     const model = body.model || params.model || defaultModel;
     const apiUrl = body.url || params.url || defaultUrl;
     const prompt = body.prompt || params.prompt;
-    const stream = body.stream === true || params.stream === 'true';
 
     if (!prompt) {
       return {
@@ -19,7 +18,7 @@ export async function handler(event) {
       };
     }
 
-    const req = await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.HF_TOKEN}`,
@@ -27,42 +26,15 @@ export async function handler(event) {
       },
       body: JSON.stringify({
         model,
-        stream,
+        stream: false,
         messages: [{ role: 'user', content: prompt }],
       }),
     });
 
-    // --- Streaming-Antwort (SSE) ---
-    if (stream) {
-      const encoder = new TextEncoder();
-      const decoder = new TextDecoder();
+    const text = await response.text();
 
-      const reader = req.body.getReader();
-      const streamResponse = new ReadableStream({
-        async start(controller) {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            controller.enqueue(encoder.encode(decoder.decode(value)));
-          }
-          controller.close();
-        },
-      });
-
-      return new Response(streamResponse, {
-        status: 200,
-        headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive',
-        },
-      });
-    }
-
-    // --- Normale Antwort ---
-    const text = await req.text();
     return {
-      statusCode: req.status,
+      statusCode: response.status,
       body: text,
       headers: { 'Content-Type': 'application/json' },
     };

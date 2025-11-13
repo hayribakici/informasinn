@@ -1,7 +1,7 @@
 <h1 align="center">
-  InformaSinn <br />
-  <i>Information</i> and <i>Sinn</i>, translated Information-Sense
+  InformaSinn
 </h1>
+<h3><i>Information</i> and <i>Sinn</i>, translated Information-Sense</h3>
 
 Source code of an educational program, where students are able to explore the relationship of _data_ and _information_.
 

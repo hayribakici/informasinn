@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'env/env.dart';
 
 abstract class InformationRetriever {
-  final _baseUrl = Env.baseUrl;
+  final _env = Env.instance();
+  late final _baseUrl = _env.baseUrl;
   final _models = <String, String>{
     'mistralai': 'mistralai/Mistral-7B-Instruct-v0.2',
     'huihui-ai': 'huihui-ai/Qwen2.5-14B-Instruct-abliterated-v2:featherless-ai'
@@ -60,7 +61,7 @@ class _InformationRetrieverRelease extends InformationRetriever {
 class _InformationRetrieverDebug extends InformationRetriever {
   @override
   Map<String, String> get _headers => {
-    HttpHeaders.authorizationHeader: 'Bearer ${Env.apiKey}',
+    HttpHeaders.authorizationHeader: 'Bearer ${_env.apiKey}',
     HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
   };
 

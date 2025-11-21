@@ -19,7 +19,9 @@ With this tool, students are able to explore the relationship between everyday d
 
 ## Deploy by yourself
 
-tba.
+1. Run `flutter build web`
+2. Upload the contents of the `build/web` folder to your webspace
+3. Enjoy
 
 ## Further improvements
 
